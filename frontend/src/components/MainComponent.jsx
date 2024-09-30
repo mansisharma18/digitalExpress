@@ -6,6 +6,7 @@ import Contact from './Contact';
 import About from './About';
 import Login from './Login';
 import TodaysDetail from './LandingPage/TodaysDetail';
+import Cart from './LandingPage/Cart';
 
 const MainComponent = () => {
   return (
@@ -18,6 +19,7 @@ const MainComponent = () => {
         <Route path="/login" element={<Login/>} />
         <Route path="/contact" element={<Contact/>} />
         <Route path="/about" element={<About/>} />
+        <Route path="/cart" element={<Cart/>} />
         <Route path="/todaysdetail/:id" element={<TodaysDetail/>} />
       </Routes>
     </Router>

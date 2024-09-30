@@ -10,19 +10,46 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import '../App.css'
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { backendHost } from './ApiConfig';
+
 
 const Login = () => {
 
   const [validated, setValidated] = useState(false);
+  const[email,setEmail]=useState('')
+  const[name,setName]=useState('')
+  const[password,setPassword]=useState('')
 
-  const handleSubmit = (event) => {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
 
-    setValidated(true);
+  const handleSubmit = (e) => {
+    // const form = event.currentTarget;
+    // if (form.checkValidity() === false) {
+    //   event.preventDefault();
+    //   event.stopPropagation();
+    // }
+
+    // setValidated(true);
+    e.preventDefault();
+    console.log("submitedd")
+    axios.post(`${backendHost}/user/login`, {
+        // "citycode": parseInt(cityCode),
+        "username":email,
+        "password":password,
+       
+
+    })
+    .then(res => {
+        console.log(res.data.userId)
+     localStorage.setItem('userid',res.data.userId)
+     const getid= localStorage.getItem('userid')
+
+    console.log("getid",getid,"660e81b21eb13a8336fdd26f")
+        })
+  
+    .catch(res => console.log(res))
+
+
   }
 
 
@@ -41,7 +68,7 @@ const Login = () => {
   <p>Enter your details below</p>
 
 
-  <Form noValidate validated={validated} onSubmit={handleSubmit}>
+  <Form  onSubmit={handleSubmit}>
 
 
  
@@ -55,6 +82,8 @@ const Login = () => {
             required
             type="text"
             placeholder="Email or phone number"
+            value={email}
+            onChange={(e)=>setEmail(e.target.value)}
             
           />
       
@@ -69,6 +98,8 @@ const Login = () => {
             required
             type="text"
             placeholder="Password"
+            value={password}
+            onChange={(e)=>setPassword(e.target.value)}
             
           />
         

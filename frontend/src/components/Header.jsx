@@ -5,8 +5,13 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import '../assets/css/header.css'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 function Header() {
+
+  const userId=localStorage.getItem('userid')
+  console.log("userid",userId)
+  
   return (
     <div className="header">
     <Navbar expand="lg" className="header">
@@ -25,8 +30,25 @@ function Header() {
             <Nav.Link href="/about">
               About
             </Nav.Link>
-            <Nav.Link href="/signup">Signup</Nav.Link>
+
+
+            <Nav.Link href="/cart"><AccountCircleIcon/></Nav.Link>
+           
+
+            {userId ?
+            <>
+            <Nav.Link href="/userProfile"><AccountCircleIcon/></Nav.Link>
+           
+            </> :
+             
+            
+            <> <Nav.Link href="/signup">Signup</Nav.Link>
+            </>}
+            
+         
           </Nav>
+
+        
           <Form className="d-flex">
             <Form.Control
               type="search"

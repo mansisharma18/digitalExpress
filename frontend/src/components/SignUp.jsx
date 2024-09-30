@@ -16,6 +16,9 @@ import axios from 'axios';
 const SignUp = () => {
 
   const [validated, setValidated] = useState(false);
+  const[email,setEmail]=useState('')
+  const[name,setName]=useState('')
+  const[password,setPassword]=useState('')
 
 
   const handleSubmit = (e) => {
@@ -30,9 +33,9 @@ const SignUp = () => {
     e.preventDefault();
     axios.post(`${backendHost}/user/createUser`, {
         // "citycode": parseInt(cityCode),
-        "username": 'aashutosh@gmail.com',
-        "name":'Mansi',
-        "password":'1324wtrdh',
+        "username": email,
+        "name":name,
+        "password":password,
        
 
     })
@@ -71,7 +74,9 @@ const SignUp = () => {
          <Form.Control
             required
             type="text"
-            placeholder="First Name"
+            placeholder="Full Name"
+            value={name}
+            onChange={(e)=>setName(e.target.value)}
             
           />
         
@@ -88,6 +93,8 @@ const SignUp = () => {
             required
             type="text"
             placeholder="Email or phone number"
+            value={email}
+            onChange={(e)=>setEmail(e.target.value)}
             
           />
       
@@ -102,6 +109,8 @@ const SignUp = () => {
             required
             type="text"
             placeholder="Password"
+            value={password}
+            onChange={(e)=>setPassword(e.target.value)}
             
           />
         

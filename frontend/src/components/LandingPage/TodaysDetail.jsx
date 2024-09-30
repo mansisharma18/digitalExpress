@@ -1,60 +1,73 @@
-import React,{useState,useEffect} from 'react'
-import Col from 'react-bootstrap/esm/Col'
-import Container from 'react-bootstrap/esm/Container'
-import Row from 'react-bootstrap/esm/Row'
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import { useParams } from 'react-router-dom';
 import { backendHost } from '../ApiConfig';
 
-
 const TodaysDetail = () => {
+  const [item, setItem] = useState({});
+  const params = useParams();
 
+  console.log("id",params.id)
 
-const[items,setItems]=useState({})
+  const response={
+      "_id": "660a6200fcfcf1d0135fe336",
+      "name": "Meta Quest 2 VR Headset",
+      "price": 299,
+      "brandName": "Meta",
+      "description": "Enter a new world of immersive experiences with the Meta Quest 2. Play incredible VR games, explore virtual worlds, and attend live events, all without the need for a PC or console.",
+      "starrating": 4.2,
+      "stock": 16,
+      "categories": [
+        "Gaming"
+      ],
+      "imageUrl": "https://picsum.photos/800/800",
+      "__v": 0
+    }
 
-    const params = useParams();
-    console.log("id",params.id)
+  useEffect(() => {
+    fetch(`${backendHost}/products/getProduct/${params.id}`)
+      .then((res) => res.json())
+      .then((json) => {
+        setItem(json);
+      });
+  }, []);
 
-    useEffect(()=>{
-  
-        fetch(`${backendHost}/products/getProduct/${params.id}`)
-        .then(res=>res.json())
-        .then(json=>{
-            setItems(json)
-            console.log("items",json)
-        })
-
-    },[])
+  // Define image URL
+  const imageUrl =  'https://picsum.photos/800/800';
 
   return (
-    <div>
-        <Container className="p-5">
-            <Row>
-                <Col md={3}>
-                    <div> 
-                        <div style={{width:"8rem",height:"6rem",backgroundColor:"pink",marginBottom:"2rem"}}></div>
-                        <div style={{width:"8rem",height:"6rem",backgroundColor:"pink",marginBottom:"2rem"}}></div>
-                        <div style={{width:"8rem",height:"6rem",backgroundColor:"pink",marginBottom:"2rem"}}></div>
-                        <div style={{width:"8rem",height:"6rem",backgroundColor:"pink",marginBottom:"2rem"}}></div>
-                    </div>
-                   </Col>
-                <Col md={5}>
-                    <div style={{backgroundColor:"pink",height:"30rem"}}>image</div>
-                    </Col>
-                <Col md={4}>
-                    <div>
-                        <h4>{items.name}</h4>
-                        <p>{items.starrating}</p>
-                        <p>Rs {items.price}</p>
-                        <p>{items.description}</p>
-                        <hr/>
-                        <span>Colours:</span>
-                        <p>Size: {items.size}</p>
-                    </div>
-                </Col>
-            </Row>
-        </Container>
-    </div>
-  )
-}
+    <Container className="p-3">
+      <Row>
+        <Col xs={12} md={2}>
+          <div>
+            {[1, 2, 3, 4].map((index) => (
+              <div key={index} className="mb-3">
+                <img src={imageUrl} alt="img" className="img-fluid" />
+              </div>
+            ))}
+          </div>
+        </Col>
+        <Col xs={12} md={6}>
+          <div>
+            <img src={imageUrl} alt="img" className="img-fluid mb-3" />
+          </div>
+        </Col>
+        <Col xs={12} md={4}>
+          <div>
+            <h4>{item.name}</h4>
+            <p>{item.starrating}</p>
+            <p>Rs {item.price}</p>
+            <p>{response.description}</p>
+            <hr />
+            <span>Colours:</span>
+            <p>Size: {item.size}</p>
+          </div>
+        </Col>
+      </Row>
+    </Container>
+  );
+};
 
-export default TodaysDetail
+export default TodaysDetail;
